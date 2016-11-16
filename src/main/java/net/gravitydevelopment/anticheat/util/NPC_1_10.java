@@ -20,6 +20,7 @@ import net.gravitydevelopment.anticheat.AntiCheat;
 import net.minecraft.server.v1_10_R1.EntityHuman;
 import net.minecraft.server.v1_10_R1.EntityPlayer;
 import net.minecraft.server.v1_10_R1.MinecraftServer;
+import net.minecraft.server.v1_10_R1.NPC;
 import net.minecraft.server.v1_10_R1.PacketPlayOutEntityMetadata;
 import net.minecraft.server.v1_10_R1.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_10_R1.PacketPlayOutNamedEntitySpawn;
@@ -159,8 +160,10 @@ public class NPC_1_10 {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					NPC_1_10.this.npc.setInvisible(true);
-					((CraftPlayer) NPC_1_10.this.getOwner()).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityMetadata(entityId, npc.getDataWatcher(), false));
+				    if (NPC_1_10.this.npc != null && NPC_1_10.this.getOwner() != null) {
+				        NPC_1_10.this.npc.setInvisible(true);
+				        ((CraftPlayer) NPC_1_10.this.getOwner()).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityMetadata(entityId, npc.getDataWatcher(), false));
+				    }
 				}
 			}.runTaskLater(AntiCheat.getPlugin(), 6 + new Random().nextInt(7));
 		}
